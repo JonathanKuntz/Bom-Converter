@@ -1,0 +1,6 @@
+
+-auswahl wie die newOrder Liste aussehen soll, ob Spalte 18 oder 20
+-CSV datei ausgabe für einpflege ins erp?
+-falls mehrere spalten dazukommen soll die umrandung auch für für diese zählen, dafür die len(newOrder) funktion benutzen
+
+    
