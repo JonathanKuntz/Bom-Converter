@@ -39,7 +39,12 @@ def return_entry(en):
 
 
 def CsvReader(filename):
-    newOrder = [0, 4, 18, 16, 10, 11, 12, 3, 5, 17, 13, 14, 15, 9]
+    newOrderWithoutR1 = [0, 4, 18, 16, 10, 11, 12, 3, 5, 17, 13, 14, 15, 9]
+    newOrderWithR1 = [0, 4, 20, 16, 10, 11, 12, 18, 19, 3, 5, 17, 13, 14, 15, 9]
+
+    global R1Check 
+    R1Check = False
+    newOrder = newOrderWithoutR1
     thtCounter = 0
     smdCounter = 0
     completeListCounter = 0
@@ -52,7 +57,9 @@ def CsvReader(filename):
         reader = csv.reader(csv_datei, delimiter=';' )
 
         header = next(reader)   #delete first line
-
+        if header[18] == "R1":
+            newOrder = newOrderWithR1
+            R1Check = True
 
     # geht jede Zeile der geöffneten CSV Datei duch und orded nach der der Order in der nächsten for schleife
         for zeile in reader:
@@ -80,10 +87,19 @@ def CsvReader(filename):
 
 def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinweis):
 
-    columnName = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'Bauform',
-                  'Beschreibung', 'Hersteller', 'Lieferant 1', 'Lieferant 2', 'Briechle Artikel', 'Bauart']
+    columnNameWithoutR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'Bauform',
+                            'Beschreibung', 'Hersteller', 'Lieferant 1', 'Lieferant 2', 'Briechle Artikel', 'Bauart']
+    columnNameWithR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'R1', 'R2', 'Bauform',
+                            'Beschreibung', 'Hersteller', 'Lieferant 1', 'Lieferant 2', 'Briechle Artikel', 'Bauart']
 
-    # anzahlSpalten = len(newOrder)    # gibt die anzahl der Werte in newOrder an
+    #checks for the right list type
+    columnName = columnNameWithoutR1
+    widthLetter = 'O'
+    if R1Check :
+        columnName = columnNameWithR1
+        widthLetter = 'Q'
+
+    #anzahlSpalten = len(columnName)    # gibt die anzahl der Werte in columnName an
 
     # initialize openpyxl and set sheet one to active to write on
     wb = Workbook()
@@ -126,9 +142,9 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
 
     # creats Borders for the datas
     lengthOfList = listToConvertCounter + 7
-    set_border(sheet, 'A7:O' + str(lengthOfList))
+    set_border(sheet, 'A7:'+ widthLetter + str(lengthOfList))
     set_Bold(sheet, 'A1:B5')
-    set_Bold(sheet, 'A7:O7')
+    set_Bold(sheet, 'A7:' + widthLetter + '7')
 
     # Farbcode:8DB4E2
     redFill = PatternFill(start_color='8DB4E2',
