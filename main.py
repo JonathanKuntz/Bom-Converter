@@ -94,12 +94,6 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
     columnNameWithR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'R1', 'R2', 'Bauform',
                             'Beschreibung', 'Hersteller', 'Lieferant 1', 'Lieferant 2', 'Briechle Artikel', 'Bauart']
 
-    #checks for the right list type
-    columnName = columnNameWithoutR1
-    widthLetter = 'O'
-    if R1Check :
-        columnName = columnNameWithR1
-        widthLetter = 'Q'
 
     #anzahlSpalten = len(columnName)    # gibt die anzahl der Werte in columnName an
 
@@ -124,6 +118,45 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
     sheet["B4"] = excelHeaderProjektHinweis + " Stückliste"
     sheet["B5"] = excelHeaderProjektDatei
 
+    #checks for the right list type
+    columnName = columnNameWithoutR1
+    widthLetter = 'O'
+        # change column width
+    sheet.column_dimensions['B'].width = 7
+    sheet.column_dimensions['C'].width = 32
+    sheet.column_dimensions['D'].width = 14
+    sheet.column_dimensions['E'].width = 16
+    sheet.column_dimensions['F'].width = 16
+    sheet.column_dimensions['G'].width = 16
+    sheet.column_dimensions['H'].width = 16
+    sheet.column_dimensions['I'].width = 16
+    sheet.column_dimensions['J'].width = 36
+    sheet.column_dimensions['K'].width = 36
+    sheet.column_dimensions['L'].width = 30
+    sheet.column_dimensions['M'].width = 30
+    sheet.column_dimensions['N'].width = 14
+
+    if R1Check :
+        columnName = columnNameWithR1
+        widthLetter = 'Q'
+
+        # change column width
+        sheet.column_dimensions['B'].width = 7
+        sheet.column_dimensions['C'].width = 32
+        sheet.column_dimensions['D'].width = 14
+        sheet.column_dimensions['E'].width = 16
+        sheet.column_dimensions['F'].width = 16
+        sheet.column_dimensions['G'].width = 16
+        sheet.column_dimensions['H'].width = 16
+        sheet.column_dimensions['I'].width = 9
+        sheet.column_dimensions['J'].width = 9
+        sheet.column_dimensions['K'].width = 16
+        sheet.column_dimensions['L'].width = 36
+        sheet.column_dimensions['M'].width = 36
+        sheet.column_dimensions['N'].width = 30
+        sheet.column_dimensions['O'].width = 30
+        sheet.column_dimensions['P'].width = 14
+    
     sheet.append(columnName)
 
     # append datas from List to sheet one by obe
@@ -157,19 +190,7 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
         cell[0].fill = redFill
     # sheet["D7"].font  = Font(color = "94A4BA")
 
-    # change column width
-    sheet.column_dimensions['B'].width = 7
-    sheet.column_dimensions['C'].width = 32
-    sheet.column_dimensions['D'].width = 14
-    sheet.column_dimensions['E'].width = 16
-    sheet.column_dimensions['F'].width = 16
-    sheet.column_dimensions['G'].width = 16
-    sheet.column_dimensions['I'].width = 16
-    sheet.column_dimensions['J'].width = 36
-    sheet.column_dimensions['K'].width = 36
-    sheet.column_dimensions['L'].width = 30
-    sheet.column_dimensions['M'].width = 30
-    sheet.column_dimensions['N'].width = 14
+
 
     # abspeichern der Datei in dem selben Path wo die Datei her kommt
     saveFile = os.path.join(os.path.dirname(filename), excelHeaderProjektDatei)
@@ -257,7 +278,7 @@ cB3 = tk.Checkbutton(root, text="THT", variable=cB3var).grid(row=8, column=1)
 root.mainloop()
 
 """
-________________________Auskommentierblock___________________
+________________________Comment Block___________________
 
 
 #Methode zum erstellen von CSV Dateien
