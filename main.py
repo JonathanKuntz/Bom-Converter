@@ -1,4 +1,5 @@
 import csv
+from ntpath import join
 import sys
 import os.path
 from openpyxl import Workbook
@@ -87,6 +88,24 @@ def CsvReader(filename):
     return kompletteListe, smdListe, thtListe, completeListCounter, smdCounter, thtCounter
 
 
+def CreateTxtFiles(listToConvert,irgendeinName ):
+    # Filename to write #Name von der aus xlsx erstellten namen nehmen und mit txt joinen
+    txtFilename = join(irgendeinName, ".txt")
+    
+    # Open the file with writing permission
+    myfile = open(txtFilename, 'w')
+    
+    for item in listToConvert:
+        # Write a line to the file
+        myfile.write('Written with Python\n')
+
+    # abspeichern der Datei in dem selben Path wo die Datei her kommt
+    myfile = os.path.join(os.path.dirname(filename), txtFilename)
+
+    # Close the file
+    myfile.close()
+
+
 def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinweis):
 
     columnNameWithoutR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'Bauform',
@@ -120,6 +139,7 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
 
     #checks for the right list type
     columnName = columnNameWithoutR1
+    
     widthLetter = 'O'
         # change column width
     sheet.column_dimensions['B'].width = 7
