@@ -1,0 +1,12 @@
+Artikelnummer	Hierachie	Art	Anzahl	Stueckartikel	Bemerkung
+10009	5	M	12	RS-RUEF400	Test-Import
+10009	1	M	0,168	YH001VU2	Test-Import
+10009	4	M	6	RV001T100	Test-Import
+10009	12	M	36	CK-220E35	Test-Import
+10009	6	M	6	LR034U002	Test-Import
+10009	9	M	6	IA-UCC3813N-0	Test-Import
+10009	3	M	6	TM-IRFZ48	Test-Import
+10009	11	M	6	CK-22E50	Test-Import
+10009	10	M	1	GP-P01ASV	Test-Import
+10009	2	M	0,672	YH001VU1	Test-Import
+10009	7	M	1	LP-ASV_4B	Test-Import
