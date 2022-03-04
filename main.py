@@ -12,7 +12,6 @@ from tkinter.filedialog import askopenfilename
 from tkinter import messagebox
 from datetime import date
 
-#Test for upload
 
 # Git Test
 filename = ""       #initialisation for filname variable
@@ -202,8 +201,9 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
     set_Bold(sheet, 'A7:' + widthLetter + '7')
 
     # Farbcode:8DB4E2
-    redFill = PatternFill(start_color='8DB4E2',
-                          end_color='8DB4E2',
+    # Farbcode 2: ACB9CA
+    redFill = PatternFill(start_color='ACB9CA',
+                          end_color='ACB9CA',
                           fill_type='solid')
 
     for cell in sheet["D7:D" + str(lengthOfList)]:
