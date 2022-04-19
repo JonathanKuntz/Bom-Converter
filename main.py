@@ -82,6 +82,7 @@ def CsvReader(filename):
                 csvReaderListe = [smdCounter] + csvReaderListe
                 smdListe.append(csvReaderListe)
 
+        #       0               1       2           3                   4           5
     return kompletteListe, smdListe, thtListe, completeListCounter, smdCounter, thtCounter
 
 
@@ -176,6 +177,19 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
 
     return excelHeaderProjektDatei
 
+def CreateTextFile(liste, listenNamen):
+
+    txtFilename = listenNamen + '.txt'
+
+    # Open the file with writing permission
+    temp_file = open(txtFilename, 'w')
+
+    for item in liste:
+        temp_file.write("%s\n" % item)
+
+    # Close the file
+    temp_file.close()
+
 
 def execute():
     return_entry(entry1)
@@ -217,6 +231,10 @@ def execute():
         if cB3var.get() == 1:
             CreateExcelFiles(CsvReader(filename)[2], CsvReader(filename)[5], "THT")
             thtFileName = CreateExcelFiles(CsvReader(filename)[2], CsvReader(filename)[5], "THT")
+        #ERP
+        if cB4var.get() == 1:
+            CreateTextFile(CsvReader(filename)[0], "ERP-Stücklistenimport000")
+
 
         #final output message
         messagebox.showinfo("Fertig :D", "folgende Dateien wurden erstellt: \n"+completeFileName+" \n"+smdFileName+"\n"
@@ -251,6 +269,8 @@ cB2 = tk.Checkbutton(root, text="SMD", variable=cB2var).grid(row=7, column=1)
 cB3var = tk.IntVar()
 cB3var.set(True)
 cB3 = tk.Checkbutton(root, text="THT", variable=cB3var).grid(row=8, column=1)
+cB4var = tk.IntVar()
+cB4 = tk.Checkbutton(root, text="ERP", variable=cB4var).grid(row=9, column=1)
 
 root.mainloop()
 
