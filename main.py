@@ -7,6 +7,7 @@ from openpyxl.styles.borders import Border, Side
 from openpyxl.styles import PatternFill
 from openpyxl.styles import Font
 from openpyxl.styles.colors import Color
+from openpyxl.styles import Alignment
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter import messagebox
@@ -194,6 +195,13 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
         cell[0].fill = redFill
     # sheet["D7"].font  = Font(color = "94A4BA")
 
+    # Wraptext für Spalte
+    def set_wrapText(ws, cell_range):
+        for row in ws[cell_range]:
+            for cell in row:
+                cell.alignment = Alignment(wrapText=True)
+
+    set_wrapText(sheet, 'C7:C' + str(lengthOfList))
 
 
     # abspeichern der Datei in dem selben Path wo die Datei her kommt
@@ -203,17 +211,38 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
 
     return excelHeaderProjektDatei
 
-def createTextFile(liste, listenNamen):
-    # Filename to write #Name von der aus xlsx erstellten namen nehmen und mit txt joinen
-    txtFilename = join(listenNamen, ".txt")
 
+def createTextFile(liste, listenNamen):
+    #Form wie die ERP Import datei aus zu sehen hat:
+    #------------->Artikelnummer    Hierachie    Art    Anzahl    Stueckartikel    Bemerkung
+    # Für uns:----> BR-Artikel          Pos.      ??    Menge       Wert            ??
+    #in Spalte:--->       15            0                  4
+
+    OrderWithotR1 = [13, 0, 0, 1, 0, 0]
+    OrderWithR1 = [1, 1, 1, 1, 1]
+
+    NewOrder = OrderWithotR1
+    if R1Check:
+        NewOrder = OrderWithR1
+
+
+    # Filename to write #Name von der aus xlsx erstellten namen nehmen und mit txt joinen
+    txtFilename = listenNamen + ".txt"
+
+    #to create File in same Folder as the original File
+    txtFilename = os.path.join(os.path.dirname(filename), txtFilename)
     # Open the file with writing permission
     temp_file = open(txtFilename, 'w')
+
+    header = ['Artikelnummer', 'Hierachie', 'Art', 'Anzahl', 'Stueckartikel', 'Bemerkung']
+    temp_file.write("%s\n" % header)
 
     for item in liste:
         temp_file.write("%s\n" % item)
 
-    temp_file = os.path.join(os.path.dirname(filename), txtFilename)
+
+
+
 
     # Close the file
     temp_file.close()
@@ -247,6 +276,7 @@ def execute():
         completeFileName = ""
         smdFileName = ""
         thtFileName = ""
+
         #complete
         if cB1var.get() == 1:
             CreateExcelFiles(CsvReader(filename)[0], CsvReader(filename)[3], "Komplette")
@@ -261,7 +291,7 @@ def execute():
             thtFileName = CreateExcelFiles(CsvReader(filename)[2], CsvReader(filename)[5], "THT")
         #ERP
         if cB4var.get() == 1:
-            createTextFile(reateTextFile(CsvReader(filename)[0]), "ERP-Stücklistenimport000")
+            createTextFile(CsvReader(filename)[0], "ERP-Stücklistenimport")
 
 
         #final output message
@@ -305,7 +335,6 @@ root.mainloop()
 """
 ________________________Comment Block___________________
 
-
 #Methode zum erstellen von CSV Dateien
 def CSV_Creator(csvName, uebergabeListe):
     csvName = csvName + '.csv'
@@ -318,5 +347,13 @@ def CSV_Creator(csvName, uebergabeListe):
 CSV_Creator('thtBom', thtListe)
 CSV_Creator('completeBom', kompletteListe)
 
+---------------------------------------------------------------
+txt Datei filter
+ for zeile in liste:
+        temp_file = []
+
+        for spalte in NewOrder:
+           data = zeile[spalte]
+           temp_file.append(data)
 
 """
