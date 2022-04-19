@@ -88,23 +88,6 @@ def CsvReader(filename):
     return kompletteListe, smdListe, thtListe, completeListCounter, smdCounter, thtCounter
 
 
-def CreateTxtFiles(listToConvert,irgendeinName ):
-    # Filename to write #Name von der aus xlsx erstellten namen nehmen und mit txt joinen
-    txtFilename = join(irgendeinName, ".txt")
-    
-    # Open the file with writing permission
-    myfile = open(txtFilename, 'w')
-    
-    for item in listToConvert:
-        # Write a line to the file
-        myfile.write('Written with Python\n')
-
-    # abspeichern der Datei in dem selben Path wo die Datei her kommt
-    myfile = os.path.join(os.path.dirname(filename), txtFilename)
-
-    # Close the file
-    myfile.close()
-
 
 def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinweis):
 
@@ -220,15 +203,17 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
 
     return excelHeaderProjektDatei
 
-def CreateTextFile(liste, listenNamen):
-
-    txtFilename = listenNamen + '.txt'
+def createTextFile(liste, listenNamen):
+    # Filename to write #Name von der aus xlsx erstellten namen nehmen und mit txt joinen
+    txtFilename = join(listenNamen, ".txt")
 
     # Open the file with writing permission
     temp_file = open(txtFilename, 'w')
 
     for item in liste:
         temp_file.write("%s\n" % item)
+
+    temp_file = os.path.join(os.path.dirname(filename), txtFilename)
 
     # Close the file
     temp_file.close()
@@ -276,7 +261,7 @@ def execute():
             thtFileName = CreateExcelFiles(CsvReader(filename)[2], CsvReader(filename)[5], "THT")
         #ERP
         if cB4var.get() == 1:
-            CreateTextFile(CsvReader(filename)[0], "ERP-Stücklistenimport000")
+            createTextFile(reateTextFile(CsvReader(filename)[0]), "ERP-Stücklistenimport000")
 
 
         #final output message
