@@ -1,6 +1,9 @@
 
 -||auswahl wie die newOrder Liste aussehen soll, ob Spalte 18 oder 20
--CSV datei ausgabe für einpflege ins erp???
+-TXT datei ausgabe für einpflegen ins erp
+	-trennzeichen ist Tab 
 -||falls mehrere spalten dazukommen soll die umrandung auch für für diese zählen, dafür die len(newOrder) funktion benutzen
-   -über die Header im csv Reader an stelle wo R1 und R2 herausfinden ob das sie alte oder neue form der Bom ist
-   -breite der Spalten über die if abfragen
+  	-über die Header im csv Reader an stelle wo R1 und R2 herausfinden ob das sie alte oder neue form der Bom ist
+  	-breite der Spalten in Excel über die if abfragen und eine weitere Wariante hinzufügen
+-neuen excecute Button für txt datei
+

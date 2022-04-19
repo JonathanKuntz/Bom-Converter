@@ -1,4 +1,5 @@
 import csv
+from ntpath import join
 import sys
 import os.path
 from openpyxl import Workbook
@@ -10,6 +11,7 @@ import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter import messagebox
 from datetime import date
+
 
 # Git Test
 filename = ""       #initialisation for filname variable
@@ -86,6 +88,24 @@ def CsvReader(filename):
     return kompletteListe, smdListe, thtListe, completeListCounter, smdCounter, thtCounter
 
 
+def CreateTxtFiles(listToConvert,irgendeinName ):
+    # Filename to write #Name von der aus xlsx erstellten namen nehmen und mit txt joinen
+    txtFilename = join(irgendeinName, ".txt")
+    
+    # Open the file with writing permission
+    myfile = open(txtFilename, 'w')
+    
+    for item in listToConvert:
+        # Write a line to the file
+        myfile.write('Written with Python\n')
+
+    # abspeichern der Datei in dem selben Path wo die Datei her kommt
+    myfile = os.path.join(os.path.dirname(filename), txtFilename)
+
+    # Close the file
+    myfile.close()
+
+
 def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinweis):
 
     columnNameWithoutR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'Bauform',
@@ -93,12 +113,6 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
     columnNameWithR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'R1', 'R2', 'Bauform',
                             'Beschreibung', 'Hersteller', 'Lieferant 1', 'Lieferant 2', 'Briechle Artikel', 'Bauart']
 
-    #checks for the right list type
-    columnName = columnNameWithoutR1
-    widthLetter = 'O'
-    if R1Check :
-        columnName = columnNameWithR1
-        widthLetter = 'Q'
 
     #anzahlSpalten = len(columnName)    # gibt die anzahl der Werte in columnName an
 
@@ -123,6 +137,46 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
     sheet["B4"] = excelHeaderProjektHinweis + " Stückliste"
     sheet["B5"] = excelHeaderProjektDatei
 
+    #checks for the right list type
+    columnName = columnNameWithoutR1
+    
+    widthLetter = 'O'
+        # change column width
+    sheet.column_dimensions['B'].width = 7
+    sheet.column_dimensions['C'].width = 32
+    sheet.column_dimensions['D'].width = 14
+    sheet.column_dimensions['E'].width = 16
+    sheet.column_dimensions['F'].width = 16
+    sheet.column_dimensions['G'].width = 16
+    sheet.column_dimensions['H'].width = 16
+    sheet.column_dimensions['I'].width = 16
+    sheet.column_dimensions['J'].width = 36
+    sheet.column_dimensions['K'].width = 36
+    sheet.column_dimensions['L'].width = 30
+    sheet.column_dimensions['M'].width = 30
+    sheet.column_dimensions['N'].width = 14
+
+    if R1Check :
+        columnName = columnNameWithR1
+        widthLetter = 'Q'
+
+        # change column width
+        sheet.column_dimensions['B'].width = 7
+        sheet.column_dimensions['C'].width = 32
+        sheet.column_dimensions['D'].width = 14
+        sheet.column_dimensions['E'].width = 16
+        sheet.column_dimensions['F'].width = 16
+        sheet.column_dimensions['G'].width = 16
+        sheet.column_dimensions['H'].width = 16
+        sheet.column_dimensions['I'].width = 9
+        sheet.column_dimensions['J'].width = 9
+        sheet.column_dimensions['K'].width = 16
+        sheet.column_dimensions['L'].width = 36
+        sheet.column_dimensions['M'].width = 36
+        sheet.column_dimensions['N'].width = 30
+        sheet.column_dimensions['O'].width = 30
+        sheet.column_dimensions['P'].width = 14
+    
     sheet.append(columnName)
 
     # append datas from List to sheet one by obe
@@ -148,27 +202,16 @@ def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinw
     set_Bold(sheet, 'A7:' + widthLetter + '7')
 
     # Farbcode:8DB4E2
-    redFill = PatternFill(start_color='8DB4E2',
-                          end_color='8DB4E2',
+    # Farbcode 2: ACB9CA
+    redFill = PatternFill(start_color='ACB9CA',
+                          end_color='ACB9CA',
                           fill_type='solid')
 
     for cell in sheet["D7:D" + str(lengthOfList)]:
         cell[0].fill = redFill
     # sheet["D7"].font  = Font(color = "94A4BA")
 
-    # change column width
-    sheet.column_dimensions['B'].width = 7
-    sheet.column_dimensions['C'].width = 32
-    sheet.column_dimensions['D'].width = 14
-    sheet.column_dimensions['E'].width = 16
-    sheet.column_dimensions['F'].width = 16
-    sheet.column_dimensions['G'].width = 16
-    sheet.column_dimensions['I'].width = 16
-    sheet.column_dimensions['J'].width = 36
-    sheet.column_dimensions['K'].width = 36
-    sheet.column_dimensions['L'].width = 30
-    sheet.column_dimensions['M'].width = 30
-    sheet.column_dimensions['N'].width = 14
+
 
     # abspeichern der Datei in dem selben Path wo die Datei her kommt
     saveFile = os.path.join(os.path.dirname(filename), excelHeaderProjektDatei)
@@ -275,7 +318,7 @@ cB4 = tk.Checkbutton(root, text="ERP", variable=cB4var).grid(row=9, column=1)
 root.mainloop()
 
 """
-________________________Auskommentierblock___________________
+________________________Comment Block___________________
 
 
 #Methode zum erstellen von CSV Dateien
