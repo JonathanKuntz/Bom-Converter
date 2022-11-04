@@ -56,7 +56,7 @@ def CsvReader(filename):
     thtListe = []
 
     #Read the Bom CSV
-    with open(filename)  as csv_datei:
+    with open(filename, encoding='utf-8')  as csv_datei:
         reader = csv.reader(csv_datei, delimiter=';' )
 
         header = next(reader)   #delete first line
