@@ -85,12 +85,17 @@ def CsvReader(filename):
                 csvReaderListe = [smdCounter] + csvReaderListe
                 smdListe.append(csvReaderListe)
 
+
         #       0               1       2           3                   4           5
     return kompletteListe, smdListe, thtListe, completeListCounter, smdCounter, thtCounter
 
 
 
 def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinweis):
+
+    #sortiert die liste nach dem BR_Value
+    #sort_order = ['n.b.', ' ']
+    listToConvert.sort(key=lambda listToConvert:listToConvert[4], reverse= false)
 
     columnNameWithoutR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'Bauform',
                             'Beschreibung', 'Hersteller', 'Lieferant 1', 'Lieferant 2', 'Briechle Artikel', 'Bauart']
@@ -249,22 +254,23 @@ def createTextFile(liste, listenNamen):
 
 
 def execute():
+
     return_entry(entry1)
     global filename
     filename = content
-    print(os.path.dirname(filename))
+    #print(os.path.dirname(filename))
     return_entry(entry2)
     global excelHeaderProjektName
     excelHeaderProjektName = content
-    print(excelHeaderProjektName)
+    #print(excelHeaderProjektName)
     return_entry(entry3)
     global excelHeaderProjektVersion
     excelHeaderProjektVersion = content
-    print(excelHeaderProjektVersion)
+    #print(excelHeaderProjektVersion)
     return_entry(entry4)
     global excelHeaderProjektDate
     excelHeaderProjektDate = content
-    print(excelHeaderProjektDate)
+    #print(excelHeaderProjektDate)
 
     #checkt mit der splitext dem hinteren Teil ob es eine csv Datei ist
     if os.path.splitext(filename)[1] !='.csv':
