@@ -93,9 +93,9 @@ def CsvReader(filename):
 
 def CreateExcelFiles(listToConvert, listToConvertCounter, excelHeaderProjektHinweis):
 
-    #sortiert die liste nach dem BR_Value
+    #sortiert die liste nach dem BR_Value, es fehlt, dass die erste Spalte nicht mitsortiert wird
     #sort_order = ['n.b.', ' ']
-    listToConvert.sort(key=lambda listToConvert:listToConvert[4], reverse= false)
+    listToConvert.sort(key=lambda row:(row[4], -row[7]))
 
     columnNameWithoutR1 = ['Pos.', 'Menge', 'Name', 'TEC-Artikel-Nr.:', 'Wert', 'Wert 2', 'Wert 3', 'Wert 4', 'Bauform',
                             'Beschreibung', 'Hersteller', 'Lieferant 1', 'Lieferant 2', 'Briechle Artikel', 'Bauart']
